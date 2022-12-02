@@ -6,15 +6,36 @@ using System.Threading.Tasks;
 
 namespace Budżecik.Models
 {
-    internal class RepozytoriumTransakcji
+    public class RepozytoriumTransakcji
     {
-        public string Ścieżka = "C:\\Users\\Karolina Aleksandra\\Downloads\\RejestrOsobK26\\Plik.csv";
-        // TODO: poprawić ścieżkę
+        private string ścieżka = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Transakcje.csv");     //ścieżka przy debugowaniu: ConsoleApp1\bin\Debug\net6.0
 
+        public List<Transakcja> listaTransakcji { get; set; } = new List<Transakcja>();
 
-        private List<Transakcja> listaTransakcji = new List<Transakcja>();
+        public int Saldo
+        {
+            get
+            {
+                int saldo = 0;
+                foreach (Transakcja t in listaTransakcji)
+                {
+                    if (t.RodzajTransakcji == RodzajeTransakcji.Przychód)
+                    {
+                        saldo += t.KwotaWGroszach;
+                    }
+                    else if (t.RodzajTransakcji == RodzajeTransakcji.Wydatek)
+                    {
+                        saldo -= t.KwotaWGroszach;
+                    }
+                }
+                return saldo;
+            }
+        }
 
-
+        public float SaldoWZłotówkach
+        {
+            get => (float)Saldo / 100;
+        }
 
         public void Dodaj(Transakcja transakcja)
         {
@@ -30,15 +51,22 @@ namespace Budżecik.Models
 
         public void WczytajZPliku()
         {
-            var FileLines = File.ReadLines(Ścieżka);
+            if (!File.Exists(ścieżka))
+            {
+                File.Create(ścieżka);
+                return;
+            }
+
+            var FileLines = File.ReadLines(ścieżka);
 
             foreach (var line in FileLines)
             {
+                string[] values = line.Split(',');
                 Transakcja transakcja = new Transakcja()
                 {
-                    // TODO: Dodaj nowe rzeczy do pliku i obsługa błędów
-                    KwotaWGroszach = int.Parse(line) 
-                };
+                    KwotaWGroszach = int.Parse(values[0]),
+                    RodzajTransakcji = Enum.Parse<RodzajeTransakcji>(values[1])
+            };
 
                 listaTransakcji.Add(transakcja);
             }
@@ -50,11 +78,12 @@ namespace Budżecik.Models
             
             foreach (var transakcja in listaTransakcji)
             {
-                string WhateverIDontCareLegit = transakcja.KwotaWGroszach.ToString();
-                doPliku.Add(WhateverIDontCareLegit);
+                string kwotaWGroszach = transakcja.KwotaWGroszach.ToString();
+                string rodzajTransakcji = transakcja.RodzajTransakcji.ToString();
+                doPliku.Add($"{kwotaWGroszach},{rodzajTransakcji}");
             }
 
-            File.WriteAllLines(Ścieżka, doPliku);
+            File.WriteAllLines(ścieżka, doPliku);
         }
     }
 }
