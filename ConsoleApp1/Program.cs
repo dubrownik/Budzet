@@ -1,10 +1,12 @@
 ﻿using Budżecik.Models;
+using System.Reflection.Metadata.Ecma335;
 
 namespace Budżecik
 {
     public static class Program
     {
         public static RepozytoriumTransakcji repozytoriumTransakcji = new RepozytoriumTransakcji();
+        public static RepozytoriumKategorii repozytoriumKategorii = new RepozytoriumKategorii();
 
         public static void Main()
         {
@@ -29,6 +31,7 @@ namespace Budżecik
                         WprowadźTransakcję();
                         break;
                     case "2":
+                        ZarządzanieKategoriami();
                         break;
                     case "3":
                         break;
@@ -53,23 +56,63 @@ namespace Budżecik
                 Console.WriteLine("Wybierz rodzaj transakcji");
                 Console.WriteLine("1. Wydatek");
                 Console.WriteLine("2. Przychód");
+                Console.WriteLine("0. Powrót do menu");
 
                 string wybór = Console.ReadLine();
 
-                if (wybór == "1")
+                switch (wybór)
                 {
-                    transakcja.RodzajTransakcji = RodzajeTransakcji.Wydatek;
-                    break;
+                    case "0":
+                        return;
+                    case "1":
+                        transakcja.RodzajTransakcji = RodzajeTransakcji.Wydatek;
+                        break;
+                    case "2":
+                        transakcja.RodzajTransakcji = RodzajeTransakcji.Przychód;
+                        break;
+                    default:
+                        Console.WriteLine("Niepoprawny wybór! Spróbuj jeszcze raz.");
+                        continue;
                 }
-                if (wybór == "2")
+
+                break;
+            }
+
+            int indexKategorii = -1;
+            while (true)
+            {
+                Console.WriteLine("Wybierz kategorię");
+
+                for (int i = 0; i < repozytoriumKategorii.Kategorie.Count(); i++)
                 {
-                    transakcja.RodzajTransakcji = RodzajeTransakcji.Przychód;
-                    break;
+                    Console.WriteLine($"{i + 1}. {repozytoriumKategorii.Kategorie[i].NazwaKategorii}");
+                }
+                Console.WriteLine("0. Powrót do menu");
+
+                string wybór = Console.ReadLine();
+                if (wybór == "0")
+                {
+                    return;
+                }
+                if (int.TryParse(wybór, out int wybranaLiczba))
+                {
+                    indexKategorii = wybranaLiczba - 1;
                 }
                 else
                 {
                     Console.WriteLine("Niepoprawny wybór! Spróbuj jeszcze raz.");
+                    continue;
                 }
+
+                if (indexKategorii < 0 || indexKategorii > repozytoriumKategorii.Kategorie.Count() - 1)
+                {
+                    Console.WriteLine("Niepoprawny wybór! Spróbuj jeszcze raz.");
+                    continue;
+                }
+
+                transakcja.IndexKategorii = indexKategorii;
+
+                break;
             }
 
             while (true)
@@ -82,6 +125,8 @@ namespace Budżecik
                     break;
                 }
             }
+
+            // TODO sprawdzanie, czy limity zostały przekroczone
 
             while (true)
             {
@@ -111,6 +156,7 @@ namespace Budżecik
                 try
                 {
                     repozytoriumTransakcji.WczytajZPliku();
+                    repozytoriumKategorii.WczytajZPliku();
                     break;
                 }
                 catch (IOException e)
@@ -123,6 +169,85 @@ namespace Budżecik
                     {
                         Environment.Exit(0);
                     }
+                }
+            }
+        }
+
+        private static void ZarządzanieKategoriami()
+        {
+            while (true)
+            {
+                Console.WriteLine("1. Zmień limity transakcji");
+                Console.WriteLine("0. Powrót do menu");
+
+                string wybór = Console.ReadLine();
+
+                if (wybór == "0")
+                {
+                    return;
+                }
+                if (wybór == "1")
+                {
+                    ZmieńLimityKategorii();
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("Niepoprawny wybór! Spróbuj jeszcze raz.");
+                }
+            }
+        }
+
+        private static void ZmieńLimityKategorii()
+        {
+            int indexKategorii = -1;
+            while (true)
+            {
+                Console.WriteLine("Wybierz kategorię");
+
+                for (int i = 0; i < repozytoriumKategorii.Kategorie.Count(); i++)
+                {
+                    Console.WriteLine($"{i + 1}. {repozytoriumKategorii.Kategorie[i].NazwaKategorii} - {repozytoriumKategorii.Kategorie[i].LimitWZotych}");
+                }
+                Console.WriteLine("0. Powrót do menu");
+
+                string wybór = Console.ReadLine();
+                if (wybór == "0")
+                {
+                    return;
+                }
+                if (int.TryParse(wybór, out int wybranaLiczba) )
+                {
+                    indexKategorii = wybranaLiczba - 1;
+                }
+                else
+                {
+                    Console.WriteLine("Niepoprawny wybór! Spróbuj jeszcze raz.");
+                    continue;
+                }
+
+                if (indexKategorii < 0 || indexKategorii > repozytoriumKategorii.Kategorie.Count() - 1)
+                {
+                    Console.WriteLine("Niepoprawny wybór! Spróbuj jeszcze raz.");
+                    continue;
+                }
+
+                break;
+            }
+
+            while (true)
+            {
+                Console.WriteLine("Podaj kwotę");
+                string wpisanaKwota = Console.ReadLine();
+                if (float.TryParse(wpisanaKwota, out float kwotaWZłotych))
+                {
+                    repozytoriumKategorii.Kategorie[indexKategorii].LimitWZotych = kwotaWZłotych;
+                    repozytoriumKategorii.ZapiszDoPliku();
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("Niepoprawny wybór! Spróbuj jeszcze raz.");
                 }
             }
         }

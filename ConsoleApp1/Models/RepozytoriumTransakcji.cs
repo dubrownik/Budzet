@@ -8,7 +8,7 @@ namespace Budżecik.Models
 {
     public class RepozytoriumTransakcji
     {
-        private string ścieżka = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Transakcje.csv");     //ścieżka przy debugowaniu: ConsoleApp1\bin\Debug\net6.0
+        private string ścieżka = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Transakcje.csv");     //ścieżka przy debugowaniu: ConsoleApp1\bin\Debug\net6.0.Transakcje.csv
 
         public List<Transakcja> listaTransakcji { get; set; } = new List<Transakcja>();
 
@@ -65,7 +65,8 @@ namespace Budżecik.Models
                 Transakcja transakcja = new Transakcja()
                 {
                     KwotaWGroszach = int.Parse(values[0]),
-                    RodzajTransakcji = Enum.Parse<RodzajeTransakcji>(values[1])
+                    RodzajTransakcji = Enum.Parse<RodzajeTransakcji>(values[1]),
+                    IndexKategorii = int.Parse(values[2])
             };
 
                 listaTransakcji.Add(transakcja);
@@ -80,7 +81,8 @@ namespace Budżecik.Models
             {
                 string kwotaWGroszach = transakcja.KwotaWGroszach.ToString();
                 string rodzajTransakcji = transakcja.RodzajTransakcji.ToString();
-                doPliku.Add($"{kwotaWGroszach},{rodzajTransakcji}");
+                string indexKategorii = transakcja.IndexKategorii.ToString();
+                doPliku.Add($"{kwotaWGroszach},{rodzajTransakcji},{indexKategorii}");
             }
 
             File.WriteAllLines(ścieżka, doPliku);
