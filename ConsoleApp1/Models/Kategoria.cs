@@ -24,7 +24,12 @@ namespace Budżecik.Models
 
         public bool LimitPrzekroczony()
         {
-            throw new NotImplementedException();
+            if (RepozytoriumTransakcji.SumaTransakcji(Program.repozytoriumTransakcji.Transakcje(kategoria: this)) < LimitWGroszach * -1)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

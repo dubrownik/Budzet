@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,27 +15,41 @@ namespace Budżecik.Models
 
         public int Saldo
         {
-            get
-            {
-                int saldo = 0;
-                foreach (Transakcja t in listaTransakcji)
-                {
-                    if (t.RodzajTransakcji == RodzajeTransakcji.Przychód)
-                    {
-                        saldo += t.KwotaWGroszach;
-                    }
-                    else if (t.RodzajTransakcji == RodzajeTransakcji.Wydatek)
-                    {
-                        saldo -= t.KwotaWGroszach;
-                    }
-                }
-                return saldo;
-            }
+            get => SumaTransakcji(listaTransakcji);
         }
 
         public float SaldoWZłotówkach
         {
             get => (float)Saldo / 100;
+        }
+
+        public List<Transakcja> Transakcje(Kategoria kategoria = null)
+        {
+            var transakcje = listaTransakcji;
+
+            if (kategoria != null)
+            {
+                transakcje = transakcje.Where(t => t.Kategoria == kategoria).ToList();
+            }
+
+            return transakcje;
+        }
+        public static int SumaTransakcji(List<Transakcja> transakcje)
+        {
+            int suma = 0;
+            foreach (Transakcja t in transakcje)
+            {
+                if (t.RodzajTransakcji == RodzajeTransakcji.Przychód)
+                {
+                    suma += t.KwotaWGroszach;
+                }
+                else if (t.RodzajTransakcji == RodzajeTransakcji.Wydatek)
+                {
+                    suma -= t.KwotaWGroszach;
+                }
+            }
+
+            return suma;
         }
 
         public void Dodaj(Transakcja transakcja)

@@ -126,8 +126,6 @@ namespace Budżecik
                 }
             }
 
-            // TODO sprawdzanie, czy limity zostały przekroczone
-
             while (true)
             {
                 try
@@ -146,6 +144,12 @@ namespace Budżecik
                         return;
                     }
                 }
+            }
+
+
+            if (transakcja.Kategoria.LimitPrzekroczony())
+            {
+                Console.WriteLine($"Limit transakcji kategorii {transakcja.Kategoria.NazwaKategorii} został przekroczony");
             }
         }
 
