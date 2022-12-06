@@ -4,8 +4,9 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Budżecik.Models;
 
-namespace Budżecik.Models
+namespace Budżecik.Dane
 {
     public class RepozytoriumTransakcji
     {
@@ -81,8 +82,9 @@ namespace Budżecik.Models
                 {
                     KwotaWGroszach = int.Parse(values[0]),
                     RodzajTransakcji = Enum.Parse<RodzajeTransakcji>(values[1]),
-                    IndexKategorii = int.Parse(values[2])
-            };
+                    DataTransakcji = DateOnly.Parse(values[2]),
+                    IndexKategorii = int.Parse(values[3])
+                };
 
                 listaTransakcji.Add(transakcja);
             }
@@ -91,13 +93,14 @@ namespace Budżecik.Models
         public void ZapiszDoPliku()
         {
             List<string> doPliku = new List<string>();
-            
+
             foreach (var transakcja in listaTransakcji)
             {
                 string kwotaWGroszach = transakcja.KwotaWGroszach.ToString();
                 string rodzajTransakcji = transakcja.RodzajTransakcji.ToString();
+                string dataTransakcji = transakcja.DataTransakcji.ToString();
                 string indexKategorii = transakcja.IndexKategorii.ToString();
-                doPliku.Add($"{kwotaWGroszach},{rodzajTransakcji},{indexKategorii}");
+                doPliku.Add($"{kwotaWGroszach},{rodzajTransakcji},{dataTransakcji},{indexKategorii}");
             }
 
             File.WriteAllLines(ścieżka, doPliku);

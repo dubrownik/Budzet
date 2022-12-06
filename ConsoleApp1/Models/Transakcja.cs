@@ -18,6 +18,7 @@ namespace Budżecik.Models
             set => KwotaWGroszach = (int)(value * 100);
         }
         public RodzajeTransakcji RodzajTransakcji { get; set; }
+        public DateOnly DataTransakcji { get; set; }
 
         public int IndexKategorii { get; set; } = -1;
         public Kategoria Kategoria

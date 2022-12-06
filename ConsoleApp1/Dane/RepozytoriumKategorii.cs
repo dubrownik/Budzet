@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Budżecik.Models;
 
-namespace Budżecik.Models
+namespace Budżecik.Dane
 {
     public class RepozytoriumKategorii
     {
@@ -38,7 +39,6 @@ namespace Budżecik.Models
                 Kategoria kategoria = new Kategoria()
                 {
                     NazwaKategorii = values[0],
-                    //LimitWGroszach = int.Parse(values[1])
                     LimitWGroszach = limitWGroszach
                 };
 
