@@ -59,7 +59,7 @@ namespace Budżecik.UI
                 }
                 else if (wybór == "2")
                 {
-                    transakcja.DataTransakcji = UIHelper.PodajDatę();
+                    transakcja.DataTransakcji = UIHelper.PodajDatę("Podaj datę transakcji");
                 }
                 else
                 {

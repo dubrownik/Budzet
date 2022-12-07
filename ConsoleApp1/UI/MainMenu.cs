@@ -14,7 +14,7 @@ namespace Budżecik.UI
             while (true)
             {
                 Console.Write("Saldo: ");
-                Console.WriteLine(Program.repozytoriumTransakcji.SaldoWZłotówkach);
+                Console.WriteLine(Program.repozytoriumTransakcji.ObliczSaldoWZłotówkach());
 
                 Console.WriteLine("Menu:");
                 Console.WriteLine("1. Wprowadź transakcję");
@@ -35,6 +35,7 @@ namespace Budżecik.UI
                     case "3":
                         break;
                     case "4":
+                        Podsumowania.Podsumowanie();
                         break;
                     case "0":
                         Environment.Exit(0);

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Budżecik.Models;
@@ -14,20 +15,22 @@ namespace Budżecik.Dane
 
         public List<Transakcja> listaTransakcji { get; set; } = new List<Transakcja>();
 
-        public int Saldo
-        {
-            get => SumaTransakcji(listaTransakcji);
-        }
+        public int ObliczSaldo() => SumaTransakcji(listaTransakcji);
 
-        public float SaldoWZłotówkach
-        {
-            get => (float)Saldo / 100;
-        }
+        public float ObliczSaldoWZłotówkach() => (float)ObliczSaldo() / 100;
 
-        public List<Transakcja> Transakcje(Kategoria kategoria = null)
+        public List<Transakcja> Transakcje(DateOnly? dataPoczątkowa = null, DateOnly? dataKońcowa = null, Kategoria kategoria = null)
         {
             var transakcje = listaTransakcji;
 
+            if (dataPoczątkowa != null)
+            {
+                transakcje = transakcje.Where(t => t.DataTransakcji >= dataPoczątkowa).ToList();
+            }
+            if (dataKońcowa != null)
+            {
+                transakcje = transakcje.Where(t => t.DataTransakcji <= dataKońcowa).ToList();
+            }
             if (kategoria != null)
             {
                 transakcje = transakcje.Where(t => t.Kategoria == kategoria).ToList();

@@ -25,7 +25,7 @@ namespace Budżecik.Models
 
         public bool LimitPrzekroczony()
         {
-            if (RepozytoriumTransakcji.SumaTransakcji(Program.repozytoriumTransakcji.Transakcje(kategoria: this)) < LimitWGroszach * -1)
+            if (RepozytoriumTransakcji.SumaTransakcji(Program.repozytoriumTransakcji.Transakcje(dataPoczątkowa: DateHelper.PoczątekTegoMiesiąca, kategoria: this)) < LimitWGroszach * -1)
             {
                 return true;
             }

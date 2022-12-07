@@ -96,6 +96,14 @@ namespace Budżecik.UI
             int rok = PodajInt("Rok:", false, 1950, 2100);
             return new DateOnly(rok, miesiąc, dzień);
         }
+        public static DateOnly PodajDatę(string napis)
+        {
+            Console.WriteLine(napis);
+            int dzień = PodajInt("Dzień:", false, 1, 36);
+            int miesiąc = PodajInt("Miesiąc:", false, 1, 12);
+            int rok = PodajInt("Rok:", false, 1950, 2100);
+            return new DateOnly(rok, miesiąc, dzień);
+        }
 
 
         public static int PodajInt()
