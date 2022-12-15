@@ -13,13 +13,13 @@ namespace Budżecik.Dane
     {
         protected override string ścieżka { get; set; } = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Transakcje.csv");     //ścieżka przy debugowaniu: ConsoleApp1\bin\Debug\net6.0.Transakcje.csv
 
-        public int ObliczSaldo() => SumaTransakcji(lista);
+        public int ObliczSaldo() => SumaTransakcji(Lista);
 
         public float ObliczSaldoWZłotówkach() => (float)ObliczSaldo() / 100;
 
         public List<Transakcja> Transakcje(DateOnly? dataPoczątkowa = null, DateOnly? dataKońcowa = null, Kategoria kategoria = null)
         {
-            var transakcje = lista;
+            var transakcje = Lista;
 
             if (dataPoczątkowa != null)
             {

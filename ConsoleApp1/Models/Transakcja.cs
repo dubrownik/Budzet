@@ -23,7 +23,7 @@ namespace Budżecik.Models
         public int IndexKategorii { get; set; } = -1;
         public Kategoria Kategoria
         {
-            get => Program.repozytoriumKategorii.Kategorie[IndexKategorii];
+            get => Program.repozytoriumKategorii.Lista[IndexKategorii];
         }
 
         public void Deserializuj(string linijka)

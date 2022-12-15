@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Budżecik.Models;
+using System.Linq;
 
 namespace Budżecik.Dane
 {
@@ -11,13 +12,16 @@ namespace Budżecik.Dane
     {
         protected override string ścieżka { get; set; } = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Kategorie.csv");     //ścieżka przy debugowaniu: ConsoleApp1\bin\Debug\net6.0.Kategorie.csv
 
-        public List<Kategoria> Kategorie = new List<Kategoria>()
+        public RepozytoriumKategorii()
         {
-            new Kategoria("Mieszkanie i rachunki"),
-            new Kategoria("Transport"),
-            new Kategoria("Jedzenie"),
-            new Kategoria("Przychód"),
-            new Kategoria("Inne")
-        };
+            if (!Lista.Any())
+            {
+                Lista.Add(new Kategoria("Mieszkanie i rachunki"));
+                Lista.Add(new Kategoria("Transport"));
+                Lista.Add(new Kategoria("Jedzenie"));
+                Lista.Add(new Kategoria("Przychód"));
+                Lista.Add(new Kategoria("Inne"));
+            }
+        }
     }
 }

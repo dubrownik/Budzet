@@ -10,17 +10,17 @@ namespace Budżecik.Dane
     {
         protected abstract string ścieżka { get; set; }
 
-        public List<T> lista { get; set; } = new List<T>();
+        public List<T> Lista { get; set; } = new List<T>();
 
         public void Dodaj(T item)
         {
-            lista.Add(item);
+            Lista.Add(item);
             ZapiszDoPliku();
         }
 
         public void Usuń(T item)
         {
-            lista.Remove(item);
+            Lista.Remove(item);
             ZapiszDoPliku();
         }
 
@@ -38,7 +38,7 @@ namespace Budżecik.Dane
             {
                 var nowaWartosc = new T();
                 nowaWartosc.Deserializuj(line);
-                lista.Add(nowaWartosc);
+                Lista.Add(nowaWartosc);
             }
         }
 
@@ -46,7 +46,7 @@ namespace Budżecik.Dane
         {
             List<string> doPliku = new List<string>();
 
-            foreach (var item in lista)
+            foreach (var item in Lista)
             {
                 item.Serializuj();
             }

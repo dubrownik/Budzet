@@ -40,7 +40,7 @@ namespace Budżecik.UI
                 break;
             }
 
-            transakcja.IndexKategorii = UIHelper.WybierzIndexZListy(Program.repozytoriumKategorii.Kategorie, "Wybierz kategorię");
+            transakcja.IndexKategorii = UIHelper.WybierzIndexZListy(Program.repozytoriumKategorii.Lista, "Wybierz kategorię");
 
             while (true)
             {

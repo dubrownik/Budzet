@@ -37,13 +37,13 @@ namespace Budżecik.UI
         {
             WyświetlLimityTransakcji();
             Console.WriteLine();
-            int indexKategorii = UIHelper.WybierzIndexZListy(Program.repozytoriumKategorii.Kategorie, "Wybierz kategorię");
+            int indexKategorii = UIHelper.WybierzIndexZListy(Program.repozytoriumKategorii.Lista, "Wybierz kategorię");
 
             while (true)
             {
                 try
                 {
-                    Program.repozytoriumKategorii.Kategorie[indexKategorii].LimitWZotych = UIHelper.PodajFloat("Podaj kwotę", true, 0);
+                    Program.repozytoriumKategorii.Lista[indexKategorii].LimitWZotych = UIHelper.PodajFloat("Podaj kwotę", true, 0);
                     Program.repozytoriumKategorii.ZapiszDoPliku();
                     break;
                 }
@@ -64,7 +64,7 @@ namespace Budżecik.UI
         private static void WyświetlLimityTransakcji()
         {
             Console.WriteLine("Limity transakcji:");
-            foreach (var kategoria in Program.repozytoriumKategorii.Kategorie)
+            foreach (var kategoria in Program.repozytoriumKategorii.Lista)
             {
                 Console.WriteLine($"{kategoria.NazwaKategorii} - {kategoria.LimitWZotych}");
             }

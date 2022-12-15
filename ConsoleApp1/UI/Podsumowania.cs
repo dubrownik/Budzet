@@ -71,7 +71,7 @@ namespace Budżecik.UI
                 switch (wybór)
                 {
                     case "1":
-                        kategoria = UIHelper.WybierzZListy(Program.repozytoriumKategorii.Kategorie, "Wybierz kategorię:");
+                        kategoria = UIHelper.WybierzZListy(Program.repozytoriumKategorii.Lista, "Wybierz kategorię:");
                         break;
                     case "2":
                         break;
