@@ -33,6 +33,7 @@ namespace Budżecik.UI
                         Kategorie.ZarządzanieKategoriami();
                         break;
                     case "3":
+                        Osoby.ZarządzanieOsobami();
                         break;
                     case "4":
                         Podsumowania.Podsumowanie();

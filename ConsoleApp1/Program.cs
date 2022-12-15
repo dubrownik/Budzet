@@ -1,5 +1,6 @@
 ﻿using Budżecik.Dane;
 using Budżecik.UI;
+using Budżecik.Models;
 using System.Reflection.Metadata.Ecma335;
 
 namespace Budżecik
@@ -8,6 +9,7 @@ namespace Budżecik
     {
         public static RepozytoriumTransakcji repozytoriumTransakcji = new RepozytoriumTransakcji();
         public static RepozytoriumKategorii repozytoriumKategorii = new RepozytoriumKategorii();
+        public static RepozytoriumOsób repozytoriumOsób = new RepozytoriumOsób();
 
         public static void Main()
         {
@@ -15,8 +17,6 @@ namespace Budżecik
 
             MainMenu.Menu();
         }
-
-
 
         private static void WczytajDaneZPlików()
         {
@@ -26,6 +26,7 @@ namespace Budżecik
                 {
                     repozytoriumTransakcji.WczytajZPliku();
                     repozytoriumKategorii.WczytajZPliku();
+                    repozytoriumOsób.WczytajZPliku();
                     break;
                 }
                 catch (IOException e)

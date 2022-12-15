@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Budżecik.Models
 {
-    public enum RodzajeTransakcji {Wydatek, Przychód};
+    public enum RodzajeTransakcji { Wydatek, Przychód };
 
-    public class Transakcja
+    public class Transakcja : ISerializowalne
     {
         public int KwotaWGroszach { get; set; }
         public float KwotaWZłotych
@@ -24,6 +24,25 @@ namespace Budżecik.Models
         public Kategoria Kategoria
         {
             get => Program.repozytoriumKategorii.Kategorie[IndexKategorii];
+        }
+
+        public void Deserializuj(string linijka)
+        {
+            string[] values = linijka.Split(',');
+
+            KwotaWGroszach = int.Parse(values[0]);
+            RodzajTransakcji = Enum.Parse<RodzajeTransakcji>(values[1]);
+            DataTransakcji = DateOnly.Parse(values[2]);
+            IndexKategorii = int.Parse(values[3]);
+        }
+
+        public string Serializuj()
+        {
+            string kwotaWGroszach = KwotaWGroszach.ToString();
+            string rodzajTransakcji = RodzajTransakcji.ToString();
+            string dataTransakcji = DataTransakcji.ToString();
+            string indexKategorii = IndexKategorii.ToString();
+            return $"{kwotaWGroszach},{rodzajTransakcji},{dataTransakcji},{indexKategorii}";
         }
     }
 }

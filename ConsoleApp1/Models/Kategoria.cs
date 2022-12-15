@@ -7,7 +7,7 @@ using Budżecik.Dane;
 
 namespace Budżecik.Models
 {
-    public class Kategoria
+    public class Kategoria : ISerializowalne
     {
         public Kategoria() { }
         public Kategoria(string nazwaKategorii)
@@ -36,6 +36,21 @@ namespace Budżecik.Models
         public override string ToString()
         {
             return NazwaKategorii;
+        }
+
+        public string Serializuj()
+        {
+            return NazwaKategorii + "," + LimitWGroszach;
+        }
+
+        public void Deserializuj(string linijka)
+        {
+            string[] values = linijka.Split(',');
+
+            int? limitWGroszach = string.IsNullOrEmpty(values[1]) ? null : int.Parse(values[1]);
+
+            NazwaKategorii = values[0];
+            LimitWGroszach = limitWGroszach;
         }
     }
 }

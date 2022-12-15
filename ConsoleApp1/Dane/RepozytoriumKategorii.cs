@@ -7,9 +7,9 @@ using Budżecik.Models;
 
 namespace Budżecik.Dane
 {
-    public class RepozytoriumKategorii
+    public class RepozytoriumKategorii : Repozytorium<Kategoria>
     {
-        private string ścieżka = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Kategorie.csv");     //ścieżka przy debugowaniu: ConsoleApp1\bin\Debug\net6.0.Kategorie.csv
+        protected override string ścieżka { get; set; } = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Kategorie.csv");     //ścieżka przy debugowaniu: ConsoleApp1\bin\Debug\net6.0.Kategorie.csv
 
         public List<Kategoria> Kategorie = new List<Kategoria>()
         {
@@ -19,45 +19,5 @@ namespace Budżecik.Dane
             new Kategoria("Przychód"),
             new Kategoria("Inne")
         };
-
-        public void WczytajZPliku()
-        {
-            if (!File.Exists(ścieżka))
-            {
-                File.Create(ścieżka);
-                return;
-            }
-
-            var FileLines = File.ReadLines(ścieżka).ToList();
-
-            for (int i = 0; i < FileLines.Count(); i++)
-            {
-                string[] values = FileLines[i].Split(',');
-
-                int? limitWGroszach = string.IsNullOrEmpty(values[1]) ? null : int.Parse(values[1]);
-
-                Kategoria kategoria = new Kategoria()
-                {
-                    NazwaKategorii = values[0],
-                    LimitWGroszach = limitWGroszach
-                };
-
-                Kategorie[i] = kategoria;
-            }
-        }
-
-        public void ZapiszDoPliku()
-        {
-            List<string> doPliku = new List<string>();
-
-            foreach (var kategoria in Kategorie)
-            {
-                string nazwaKategorii = kategoria.NazwaKategorii;
-                int? limitWGroszach = kategoria.LimitWGroszach;
-                doPliku.Add($"{nazwaKategorii},{limitWGroszach}");
-            }
-
-            File.WriteAllLines(ścieżka, doPliku);
-        }
     }
 }
