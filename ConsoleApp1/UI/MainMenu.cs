@@ -20,7 +20,7 @@ namespace Budżecik.UI
                 Console.WriteLine("1. Wprowadź transakcję");
                 Console.WriteLine("2. Zarządzaj kategoriami");
                 Console.WriteLine("3. Zarządzaj osobami");
-                Console.WriteLine("4. Podsumowanie");
+                Console.WriteLine("4. Podsumowania");
                 Console.WriteLine("0. Koniec");
                 string wybór = Console.ReadLine();
 

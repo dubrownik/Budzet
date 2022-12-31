@@ -13,7 +13,7 @@ namespace Budżecik.UI
         {
             while (true)
             {
-                Console.WriteLine("1. Zmień limity transakcji");
+                Console.WriteLine("1. Zmień limity wydatków");
                 Console.WriteLine("0. Powrót do menu");
 
                 string wybór = Console.ReadLine();
@@ -24,7 +24,7 @@ namespace Budżecik.UI
                 }
                 else if (wybór == "1")
                 {
-                    ZmieńLimityKategorii();
+                    ZmieńLimityWydatków();
                 }
                 else
                 {
@@ -33,7 +33,7 @@ namespace Budżecik.UI
             }
         }
 
-        private static void ZmieńLimityKategorii()
+        private static void ZmieńLimityWydatków()
         {
             WyświetlLimityTransakcji();
             Console.WriteLine();
@@ -43,7 +43,7 @@ namespace Budżecik.UI
             {
                 try
                 {
-                    Program.repozytoriumKategorii.Lista[indexKategorii].LimitWZotych = UIHelper.PodajFloat("Podaj kwotę", true, 0);
+                    Program.repozytoriumKategorii.Lista[indexKategorii].LimitWZłotych = UIHelper.PodajFloat("Podaj kwotę", true, 0);
                     Program.repozytoriumKategorii.ZapiszDoPliku();
                     break;
                 }
@@ -63,10 +63,10 @@ namespace Budżecik.UI
 
         private static void WyświetlLimityTransakcji()
         {
-            Console.WriteLine("Limity transakcji:");
+            Console.WriteLine("Limity wydatków:");
             foreach (var kategoria in Program.repozytoriumKategorii.Lista)
             {
-                Console.WriteLine($"{kategoria.NazwaKategorii} - {kategoria.LimitWZotych}");
+                Console.WriteLine($"{kategoria.NazwaKategorii} - {kategoria.LimitWZłotych}");
             }
         }
     }

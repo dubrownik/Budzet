@@ -26,6 +26,12 @@ namespace Budżecik.Models
             get => Program.repozytoriumKategorii.Lista[IndexKategorii];
         }
 
+        public int IndexOsoby { get; set; }
+        public Osoba Osoba
+        {
+            get => Program.repozytoriumOsób.Lista[IndexOsoby];
+        }
+
         public void Deserializuj(string linijka)
         {
             string[] values = linijka.Split(',');
@@ -34,6 +40,7 @@ namespace Budżecik.Models
             RodzajTransakcji = Enum.Parse<RodzajeTransakcji>(values[1]);
             DataTransakcji = DateOnly.Parse(values[2]);
             IndexKategorii = int.Parse(values[3]);
+            IndexOsoby = int.Parse(values[4]);
         }
 
         public string Serializuj()
@@ -42,7 +49,8 @@ namespace Budżecik.Models
             string rodzajTransakcji = RodzajTransakcji.ToString();
             string dataTransakcji = DataTransakcji.ToString();
             string indexKategorii = IndexKategorii.ToString();
-            return $"{kwotaWGroszach},{rodzajTransakcji},{dataTransakcji},{indexKategorii}";
+            string indexOsoby = IndexOsoby.ToString();
+            return $"{kwotaWGroszach},{rodzajTransakcji},{dataTransakcji},{indexKategorii},{indexOsoby}";
         }
     }
 }

@@ -24,11 +24,12 @@ namespace Budżecik.Dane
             ZapiszDoPliku();
         }
 
-        public void WczytajZPliku()
+        public virtual void WczytajZPliku()
         {
             if (!File.Exists(ścieżka))
             {
-                File.Create(ścieżka);
+                var fileStream = File.Create(ścieżka);
+                fileStream.Close();
                 return;
             }
 
@@ -48,7 +49,7 @@ namespace Budżecik.Dane
 
             foreach (var item in Lista)
             {
-                item.Serializuj();
+                doPliku.Add(item.Serializuj());
             }
 
             File.WriteAllLines(ścieżka, doPliku);

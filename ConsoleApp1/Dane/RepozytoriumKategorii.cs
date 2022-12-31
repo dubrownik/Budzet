@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Budżecik.Models;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace Budżecik.Dane
 {
@@ -12,8 +13,11 @@ namespace Budżecik.Dane
     {
         protected override string ścieżka { get; set; } = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Kategorie.csv");     //ścieżka przy debugowaniu: ConsoleApp1\bin\Debug\net6.0.Kategorie.csv
 
-        public RepozytoriumKategorii()
+
+        public override void WczytajZPliku()
         {
+            base.WczytajZPliku();
+
             if (!Lista.Any())
             {
                 Lista.Add(new Kategoria("Mieszkanie i rachunki"));

@@ -91,7 +91,7 @@ namespace Budżecik.UI
         public static DateOnly PodajDatę()
         {
             Console.WriteLine("Podaj datę");
-            int dzień = PodajInt("Dzień:", false, 1, 36);
+            int dzień = PodajInt("Dzień:", false, 1, 31);
             int miesiąc = PodajInt("Miesiąc:", false, 1, 12);
             int rok = PodajInt("Rok:", false, 1950, 2100);
             return new DateOnly(rok, miesiąc, dzień);
@@ -99,10 +99,60 @@ namespace Budżecik.UI
         public static DateOnly PodajDatę(string napis)
         {
             Console.WriteLine(napis);
-            int dzień = PodajInt("Dzień:", false, 1, 36);
+            int dzień = PodajInt("Dzień:", false, 1, 31);
             int miesiąc = PodajInt("Miesiąc:", false, 1, 12);
             int rok = PodajInt("Rok:", false, 1950, 2100);
             return new DateOnly(rok, miesiąc, dzień);
+        }
+        public static DateOnly PodajDatę(string napis, DateOnly max)
+        {
+            DateOnly data = DateOnly.MinValue;
+            while (true)
+            {
+                Console.WriteLine(napis);
+                int dzień = PodajInt("Dzień:", false, 1, 31);
+                int miesiąc = PodajInt("Miesiąc:", false, 1, 12);
+                int rok = PodajInt("Rok:", false, 1950, 2100);
+                data = new DateOnly(rok, miesiąc, dzień);
+
+                if (data <= max)
+                {
+                    return data;
+                }
+                else
+                {
+                    Console.WriteLine($"Podaj datę wcześniejszą niż {max}");
+                }
+            }
+        }
+        public static DateOnly PodajPrzeszłąDatę(string napis)
+        {
+            DateOnly data = DateOnly.MinValue;
+            while (true)
+            {
+                Console.WriteLine(napis);
+                int dzień = PodajInt("Dzień:", false, 1, 31);
+                int miesiąc = PodajInt("Miesiąc:", false, 1, 12);
+                int rok = PodajInt("Rok:", false, 1950, 2100);
+                try
+                {
+                    data = new DateOnly(rok, miesiąc, dzień);
+                }
+                catch
+                {
+                    Console.WriteLine("Podaj poprawną datę");
+                    continue;
+                }
+
+                if (data <= DateOnly.FromDateTime(DateTime.Now))
+                {
+                    return data;
+                }
+                else
+                {
+                    Console.WriteLine($"Podaj przeszłą lub dzisiejszą datę");
+                }
+            }
         }
 
 
@@ -381,6 +431,30 @@ namespace Budżecik.UI
                 }
             }
             return input;
+        }
+
+        public static void BłądPrzyWczytywaniuDanychZPliku(IOException e)
+        {
+            Console.WriteLine($"Błąd przy wczytywaniu danych z pliku: \n{e.Message}");
+            Console.WriteLine("1. Spróbuj ponownie");
+            Console.WriteLine("2. Wyjście");
+            string wybór = Console.ReadLine();
+            if (wybór == "2")
+            {
+                Environment.Exit(0);
+            }
+        }
+
+        public static void BłądPrzyZapisywaniuDanychDoPliku(IOException e)
+        {
+            Console.WriteLine($"Błąd przy zapisywaniu danych do pliku: \n{e.Message}");
+            Console.WriteLine("1. Spróbuj ponownie");
+            Console.WriteLine("2. Wyjście");
+            string wybór = Console.ReadLine();
+            if (wybór == "2")
+            {
+                Environment.Exit(0);
+            }
         }
     }
 }

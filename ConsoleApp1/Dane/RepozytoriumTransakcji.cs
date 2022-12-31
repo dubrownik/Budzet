@@ -17,7 +17,7 @@ namespace Budżecik.Dane
 
         public float ObliczSaldoWZłotówkach() => (float)ObliczSaldo() / 100;
 
-        public List<Transakcja> Transakcje(DateOnly? dataPoczątkowa = null, DateOnly? dataKońcowa = null, Kategoria kategoria = null)
+        public List<Transakcja> Transakcje(DateOnly? dataPoczątkowa = null, DateOnly? dataKońcowa = null, Kategoria kategoria = null, Osoba osoba = null)
         {
             var transakcje = Lista;
 
@@ -32,6 +32,10 @@ namespace Budżecik.Dane
             if (kategoria != null)
             {
                 transakcje = transakcje.Where(t => t.Kategoria == kategoria).ToList();
+            }
+            if (osoba != null)
+            {
+                transakcje = transakcje.Where(t => t.Osoba == osoba).ToList();
             }
 
             return transakcje;
@@ -49,6 +53,20 @@ namespace Budżecik.Dane
                 else if (t.RodzajTransakcji == RodzajeTransakcji.Wydatek)
                 {
                     suma -= t.KwotaWGroszach;
+                }
+            }
+
+            return suma;
+        }
+
+        public static int SumaWydatków(List<Transakcja> transakcje)
+        {
+            int suma = 0;
+            foreach (Transakcja t in transakcje)
+            {
+                if (t.RodzajTransakcji == RodzajeTransakcji.Wydatek)
+                {
+                    suma += t.KwotaWGroszach;
                 }
             }
 

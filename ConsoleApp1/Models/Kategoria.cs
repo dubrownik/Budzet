@@ -17,7 +17,7 @@ namespace Budżecik.Models
         public string NazwaKategorii { get; set; }
         public int? LimitWGroszach { get; set; }
 
-        public float? LimitWZotych
+        public float? LimitWZłotych
         {
             get => LimitWGroszach / 100;
             set => LimitWGroszach = (int)(value * 100);
@@ -25,7 +25,7 @@ namespace Budżecik.Models
 
         public bool LimitPrzekroczony()
         {
-            if (RepozytoriumTransakcji.SumaTransakcji(Program.repozytoriumTransakcji.Transakcje(dataPoczątkowa: DateHelper.PoczątekTegoMiesiąca, kategoria: this)) < LimitWGroszach * -1)
+            if (RepozytoriumTransakcji.SumaWydatków(Program.repozytoriumTransakcji.Transakcje(dataPoczątkowa: DateHelper.PoczątekTegoMiesiąca, kategoria: this)) > LimitWGroszach)
             {
                 return true;
             }

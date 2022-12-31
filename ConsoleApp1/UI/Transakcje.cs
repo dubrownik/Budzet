@@ -1,4 +1,5 @@
-﻿using Budżecik.Models;
+﻿using Budżecik.Dane;
+using Budżecik.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,6 +42,7 @@ namespace Budżecik.UI
             }
 
             transakcja.IndexKategorii = UIHelper.WybierzIndexZListy(Program.repozytoriumKategorii.Lista, "Wybierz kategorię");
+            transakcja.IndexOsoby = UIHelper.WybierzIndexZListy(Program.repozytoriumOsób.Lista, "Wybierz osobę");
 
             while (true)
             {
@@ -59,7 +61,7 @@ namespace Budżecik.UI
                 }
                 else if (wybór == "2")
                 {
-                    transakcja.DataTransakcji = UIHelper.PodajDatę("Podaj datę transakcji");
+                    transakcja.DataTransakcji = UIHelper.PodajPrzeszłąDatę("Podaj datę transakcji");
                 }
                 else
                 {
@@ -81,21 +83,20 @@ namespace Budżecik.UI
                 }
                 catch (IOException e)
                 {
-                    Console.WriteLine($"Błąd przy zapisywaniu danych do pliku: \n{e.Message}");
-                    Console.WriteLine("1. Spróbuj ponownie");
-                    Console.WriteLine("2. Wyjście do menu");
-                    string wybór = Console.ReadLine();
-                    if (wybór == "2")
-                    {
-                        return;
-                    }
+                    UIHelper.BłądPrzyZapisywaniuDanychDoPliku(e);
                 }
             }
 
-
-            if (transakcja.Kategoria.LimitPrzekroczony())
+            if (transakcja.RodzajTransakcji == RodzajeTransakcji.Wydatek)
             {
-                Console.WriteLine($"Limit transakcji kategorii {transakcja.Kategoria.NazwaKategorii} został przekroczony");
+                if (transakcja.Kategoria.LimitPrzekroczony())
+                {
+                    Console.WriteLine($"Limit wydatków kategorii {transakcja.Kategoria.NazwaKategorii} został przekroczony: {RepozytoriumTransakcji.SumaWydatków(Program.repozytoriumTransakcji.Transakcje(kategoria: transakcja.Kategoria)).PrzeliczNaZłotówki()}/ {transakcja.Kategoria.LimitWZłotych}");
+                }
+                if (transakcja.Osoba.LimitPrzekroczony())
+                {
+                    Console.WriteLine($"Limit wydatków osoby {transakcja.Osoba.Imię} został przekroczony: {RepozytoriumTransakcji.SumaWydatków(Program.repozytoriumTransakcji.Transakcje(osoba: transakcja.Osoba)).PrzeliczNaZłotówki()}/ {transakcja.Osoba.LimitWZłotych}");
+                }
             }
         }
 

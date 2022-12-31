@@ -31,14 +31,7 @@ namespace Budżecik
                 }
                 catch (IOException e)
                 {
-                    Console.WriteLine($"Błąd przy wczytywaniu danych z pliku: \n{e.Message}");
-                    Console.WriteLine("1. Spróbuj ponownie");
-                    Console.WriteLine("2. Wyjście");
-                    string wybór = Console.ReadLine();
-                    if (wybór == "2")
-                    {
-                        Environment.Exit(0);
-                    }
+                    UIHelper.BłądPrzyWczytywaniuDanychZPliku(e);
                 }
             }
         }
